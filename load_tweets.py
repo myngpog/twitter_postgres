@@ -305,12 +305,12 @@ def insert_tweet(connection,tweet):
         for tag in tags:
             sql=sqlalchemy.sql.text('''
                 insert into tweet_tags
-                    (id_tweets)
+                    (id_tweets, tag)
                     values
-                    (:id_tweets)
+                    (:id_tweets, :tag)
                     on conflict do nothing;
                 ''')
-            res = connection.execute(sql, {'id_tweets':tweet['id']})
+            res = connection.execute(sql, {'id_tweets':tweet['id'], 'tag':tag})
 
         ########################################
         # insert into the tweet_media table
@@ -328,12 +328,12 @@ def insert_tweet(connection,tweet):
             id_urls = get_id_urls(medium['media_url'], connection)
             sql=sqlalchemy.sql.text('''
                 insert into tweet_media
-                    (id_tweets, id_urls)
+                    (id_tweets, id_urls, type)
                     values
-                    (:id_tweets, :ud_urls)
+                    (:id_tweets, :ud_urls, :type)
                     on conflict do nothing;
                 ''')
-            res = connection.execute(sql, {'id_tweets':tweet['id'], 'id-urls':id_urls})
+            res = connection.execute(sql, {'id_tweets':tweet['id'], 'id-urls':id_urls, 'type':medium['type']})
 
 ################################################################################
 # main functions
