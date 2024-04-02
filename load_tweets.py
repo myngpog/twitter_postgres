@@ -230,7 +230,7 @@ def insert_tweet(connection,tweet):
                     (:id_users)
                 on conflict do nothing;
                 ''')
-        res = connection.execute(sql,{'id_users':tweet.get('in_reply_to_user_id', None)})
+        res = connection.execute(sql,{'id_users':tweet['in_reply_to_user_id']})
 
         # insert the tweet
         sql=sqlalchemy.sql.text(f'''
