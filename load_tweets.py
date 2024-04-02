@@ -376,7 +376,7 @@ def insert_tweet(connection,tweet):
                     (:id_tweets, :tag)
                 on conflict do nothing;
                 ''')
-            res = connection.execute(sql, {'id_tweets':tweet['id'], 'tag':tag})
+            res = connection.execute(sql, {'id_tweets':tweet['id'], 'tag':remove_nulls(tag)})
 
         ########################################
         # insert into the tweet_media table
