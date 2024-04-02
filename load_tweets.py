@@ -162,7 +162,7 @@ def insert_tweet(connection,tweet):
             'location': remove_nulls(tweet['user']['location']),
             'description': remove_nulls(tweet['user']['description']),
             'withheld_in_countries': tweet['user'].get('withheld_in_countries', None),
-            'updated_at': tweet['created_at']
+            'updated_at': tweet['created_at'],
             'verified': tweet['user']['verified']
         })
 
