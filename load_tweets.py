@@ -115,7 +115,7 @@ def insert_tweet(connection,tweet):
         sql = sqlalchemy.sql.text('''
             insert into users (
                 id_users,
-                create_at,
+                created_at,
                 updated_at,
                 id_urls,
                 friends_count,
