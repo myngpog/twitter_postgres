@@ -149,22 +149,21 @@ def insert_tweet(connection,tweet):
             ''')
 
         res = connection.execute(sql, {
+            'id_urls': user_id_urls,
             'id_users': tweet['user']['id'],
             'created_at': remove_nulls(tweet['user']['created_at']),
-            'id_urls': user_id_urls,
-            'friends_count': tweet['user']['friends_count'],
             'listed_count': tweet['user']['listed_count'],
+            'friends_count': tweet['user']['friends_count'],
             'favourites_count': tweet['user']['favourites_count'],
             'statuses_count': tweet['user']['statuses_count'],
-            'protected': tweet['user']['protected'],
-            'verified': tweet['user']['verified'],
             'screen_name': remove_nulls(tweet['user']['screen_name']),
+            'protected': tweet['user']['protected'],
             'name': remove_nulls(tweet['user']['name']),
             'location': remove_nulls(tweet['user']['location']),
             'description': remove_nulls(tweet['user']['description']),
             'withheld_in_countries': tweet['user'].get('withheld_in_countries', None),
-            'verified': tweet['user']['verified'],
             'updated_at': tweet['created_at']
+            'verified': tweet['user']['verified']
         })
 
         ########################################
@@ -257,7 +256,7 @@ def insert_tweet(connection,tweet):
                 :id_users,
                 :created_at,
                 :in_reply_to_user_id,
-                :in_reply_to_satus_id,
+                :in_reply_to_status_id,
                 :quoted_status_id,
                 :retweet_count,
                 :favorite_count,
@@ -279,20 +278,20 @@ def insert_tweet(connection,tweet):
             'id_tweets': tweet['id'],
             'id_users': tweet.get('in_reply_to_user_id', None),
             'created_at': tweet['created_at'],
-            'in_reply_to_status_id': tweet['in_reply_to_status_id'],
             'in_reply_to_user_id': tweet['in_reply_to_user_id'],
+            'in_reply_to_status_id': tweet.get('in_reply_to_status_id', None),
             'quoted_status_id': tweet.get('quoted_status_id', None),
             'retweet_count': tweet['retweet_count'],
             'favorite_count': tweet['favorite_count'],
             'quote_count': tweet['quote_count'],
-            'source': remove_nulls(tweet['source']),
-            'text': remove_nulls(text),
-            'country_code': country_code,
-            'state_code': state_code,
-            'lang': remove_nulls(tweet['lang']),
-            'place_name': remove_nulls(place_name),
             'withheld_copyright': tweet.get('withheld_copyright', None),
             'withheld_in_countries': tweet.get('withheld_in_countries', None),
+            'source': remove_nulls(tweet.get('source', None)),
+            'text': remove_nulls(text),
+            'state_code': state_code,
+            'country_code': country_code,
+            'place_name': remove_nulls(place_name),
+            'lang': remove_nulls(tweet.get('lang', None)),
             'geo': None
         })
 
@@ -351,7 +350,8 @@ def insert_tweet(connection,tweet):
                     (:id_tweets, :id_users)
                 on conflict do nothing;
                 ''')
-            res = connection.execute(sql, {'id_users':mention['id'], 'id_tweets':tweet['id']})
+            res = connection.execute(sql, {'id_tweets': tweet['id'],'id_users': mention['id']})
+
 
         ########################################
         # insert into the tweet_tags table
