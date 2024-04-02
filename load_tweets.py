@@ -161,9 +161,9 @@ def insert_tweet(connection,tweet):
             'screen_name': remove_nulls(tweet['user']['screen_name']),
             'name': remove_nulls(tweet['user']['name']),
             'location': remove_nulls(tweet['user']['location']),
-            'description': remove_nulls(tweet['user']['description']).
+            'description': remove_nulls(tweet['user']['description']),
             'withheld_in_countries': tweet['user'].get('withheld_in_countries', None),
-            'verified': tweet['user']['verified'],,
+            'verified': tweet['user']['verified'],
             'updated_at': tweet['created_at'],
         })
 
