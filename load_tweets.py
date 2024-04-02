@@ -148,7 +148,7 @@ def insert_tweet(connection,tweet):
               ) on conflict do nothing;
             ''')
 
-        print(f"Attempting to insert user data for Tweet ID: {tweet.get('id', 'N/A')}, User ID: {tweet['user'].get('id', 'N/A')}")
+        # print(f"Attempting to insert user data for Tweet ID: {tweet.get('id', 'N/A')}, User ID: {tweet['user'].get('id', 'N/A')}")
 
         res = connection.execute(sql, {
             'id_users': tweet['user']['id'],
