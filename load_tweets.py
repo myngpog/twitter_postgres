@@ -114,56 +114,56 @@ def insert_tweet(connection,tweet):
         # create/update the user
         sql = sqlalchemy.sql.text('''
             insert into users (
-                id_urls,
                 id_users,
-                created_at,
-                listed_count,
+                create_at,
+                updated_at,
+                id_urls,
                 friends_count,
+                listed_count,
                 favourites_count,
                 statuses_count,
-                screen_name,
                 protected,
+                verified,
+                screen_name,
                 name,
                 location,
                 description,
-                withheld_in_countries,
-                updated_at,
-                verified
+                withheld_in_countries
               ) values (
-                :id_urls,
                 :id_users,
                 :created_at,
-                :listed_count,
+                :updated_at,
+                :id_urls,
                 :friends_count,
+                :listed_count,
                 :favourites_count,
                 :statuses_count,
-                :screen_name,
                 :protected,
+                :verified,
+                :screen_name,
                 :name,
                 :location,
                 :description,
-                :withheld_in_countries,
-                :updated_at,
-                :verified
+                :withheld_in_countries
               ) on conflict do nothing;
             ''')
 
         res = connection.execute(sql, {
-            'id_urls': user_id_urls,
             'id_users': tweet['user']['id'],
-            'created_at': remove_nulls(tweet['user']['created_at']),
-            'listed_count': tweet['user']['listed_count'],
-            'friends_count': tweet['user']['friends_count'],
-            'favourites_count': tweet['user']['favourites_count'],
-            'statuses_count': tweet['user']['statuses_count'],
+            'created_at': tweet['user']['created_at'],
+            'updated_at': tweet['created_at'],
             'screen_name': remove_nulls(tweet['user']['screen_name']),
-            'protected': tweet['user']['protected'],
             'name': remove_nulls(tweet['user']['name']),
             'location': remove_nulls(tweet['user']['location']),
+            'id_urls': user_id_urls,
             'description': remove_nulls(tweet['user']['description']),
-            'withheld_in_countries': tweet['user'].get('withheld_in_countries', None),
-            'updated_at': tweet['created_at'],
-            'verified': tweet['user']['verified']
+            'protected': tweet['user']['protected'],
+            'verified': tweet['user']['verified'],
+            'friends_count': tweet['user']['friends_count'],
+            'listed_count': tweet['user']['listed_count'],
+            'favourites_count': tweet['user']['favourites_count'],
+            'statuses_count': tweet['user']['statuses_count'],
+            'withheld_in_countries': tweet['user'].get('withheld_in_countries', None)
         })
 
         ########################################
