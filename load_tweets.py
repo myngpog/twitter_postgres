@@ -129,7 +129,7 @@ def insert_tweet(connection,tweet):
                 withheld_in_countries,
                 updated_at,
                 verified
-                ) values (
+              ) values (
                 :id_urls,
                 :id_users,
                 :created_at,
@@ -145,7 +145,7 @@ def insert_tweet(connection,tweet):
                 :withheld_in_countries,
                 :updated_at,
                 :verified
-                ) on conflict do nothing;
+              ) on conflict do nothing;
             ''')
 
         res = connection.execute(sql, {
@@ -164,7 +164,7 @@ def insert_tweet(connection,tweet):
             'description': remove_nulls(tweet['user']['description']),
             'withheld_in_countries': tweet['user'].get('withheld_in_countries', None),
             'verified': tweet['user']['verified'],
-            'updated_at': tweet['created_at'],
+            'updated_at': tweet['created_at']
         })
 
         ########################################
@@ -251,9 +251,9 @@ def insert_tweet(connection,tweet):
                 country_code,
                 place_name,
                 lang,
-                geo)
-                values
-                (:id_tweets,
+                geo
+              ) values (
+                :id_tweets,
                 :id_users,
                 :created_at,
                 :in_reply_to_user_id,
@@ -270,8 +270,8 @@ def insert_tweet(connection,tweet):
                 :country_code,
                 :place_name,
                 :lang,
-                :geo)
-            on conflict do nothing;
+                :geo
+              ) on conflict do nothing;
             ''')
 
 
@@ -397,7 +397,7 @@ def insert_tweet(connection,tweet):
                     (:id_tweets, :id_urls, :type)
                 on conflict do nothing;
                 ''')
-            res = connection.execute(sql, {'id_tweets':tweet['id'], 'id_urls':id_urls, 'type':medium['type']})
+            res = connection.execute(sql, {'id_tweets':tweet['id'], 'id_urls':id_urls, 'type':remove_nulls(medium['type'])})
 
 ################################################################################
 # main functions
