@@ -239,7 +239,7 @@ def insert_tweet(connection,tweet):
                 id_users,
                 created_at,
                 in_reply_to_status_id,
-                :in_reply_to_user_id,
+                in_reply_to_user_id,
                 quoted_status_id,
                 retweet_count,
                 favorite_count,
