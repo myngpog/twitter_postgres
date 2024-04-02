@@ -278,7 +278,7 @@ def insert_tweet(connection,tweet):
 
         res = connection.execute(sql, {
             'id_tweets': tweet['id'],
-            'id_users': tweet.get('in_reply_to_user_id', None),
+            'id_users': tweet['user']['id'],
             'created_at': tweet['created_at'],
             'in_reply_to_user_id': tweet['in_reply_to_user_id'],
             'in_reply_to_status_id': tweet.get('in_reply_to_status_id', None),
